@@ -2,8 +2,8 @@ import os
 import json
 
 from typing import List
-from dataclasses import dataclass
-from collections import deque
+from dataclasses import dataclass # 装饰器，自动创建带有默认属性值的方法和类
+from collections import deque # 双端队列
 
 from logger_config import logger
 
@@ -15,7 +15,7 @@ class EntityExample:
     entity_desc: str = ''
 
 
-class TripletDict:
+class TripletDict: # relations、hr2tails[(head, relation)作为key]、triplet_cnt
 
     def __init__(self, path_list: List[str]):
         self.path_list = path_list
@@ -30,25 +30,25 @@ class TripletDict:
 
     def _load(self, path: str):
         examples = json.load(open(path, 'r', encoding='utf-8'))
-        examples += [reverse_triplet(obj) for obj in examples]
+        examples += [reverse_triplet(obj) for obj in examples] # 加上全部的逆关系
         for ex in examples:
             self.relations.add(ex['relation'])
             key = (ex['head_id'], ex['relation'])
             if key not in self.hr2tails:
                 self.hr2tails[key] = set()
-            self.hr2tails[key].add(ex['tail_id'])
+            self.hr2tails[key].add(ex['tail_id']) # 一个(head, relation)对应多个tail id，(head, relation)作为key
         self.triplet_cnt = len(examples)
 
     def get_neighbors(self, h: str, r: str) -> set:
         return self.hr2tails.get((h, r), set())
 
 
-class EntityDict:
+class EntityDict: # entity_exs(全部实体的信息)、id2entity、entity2idx 主要就是这个
 
-    def __init__(self, entity_dict_dir: str, inductive_test_path: str = None):
+    def __init__(self, entity_dict_dir: str, inductive_test_path: str = None): # inductive 目前还没有使用
         path = os.path.join(entity_dict_dir, 'entities.json')
         assert os.path.exists(path)
-        self.entity_exs = [EntityExample(**obj) for obj in json.load(open(path, 'r', encoding='utf-8'))]
+        self.entity_exs = [EntityExample(**obj) for obj in json.load(open(path, 'r', encoding='utf-8'))] # entity_exs是一个EntityExample的列表，包含全部id，entity，desc
 
         if inductive_test_path:
             examples = json.load(open(inductive_test_path, 'r', encoding='utf-8'))
@@ -59,7 +59,7 @@ class EntityDict:
             self.entity_exs = [ex for ex in self.entity_exs if ex.entity_id in valid_entity_ids]
 
         self.id2entity = {ex.entity_id: ex for ex in self.entity_exs}
-        self.entity2idx = {ex.entity_id: i for i, ex in enumerate(self.entity_exs)}
+        self.entity2idx = {ex.entity_id: i for i, ex in enumerate(self.entity_exs)} # 将entity_id映射为idx，即映射到索引
         logger.info('Load {} entities from {}'.format(len(self.id2entity), path))
 
     def entity_to_idx(self, entity_id: str) -> int:
@@ -75,14 +75,14 @@ class EntityDict:
         return len(self.entity_exs)
 
 
-class LinkGraph:
+class LinkGraph: # graph 是一个字典，里面保存了每个实体的邻居实体
 
     def __init__(self, train_path: str):
         logger.info('Start to build link graph from {}'.format(train_path))
         # id -> set(id)
-        self.graph = {}
+        self.graph = {} # 是一个字典
         examples = json.load(open(train_path, 'r', encoding='utf-8'))
-        for ex in examples:
+        for ex in examples: # 这个地方相当于构建了一个无向图
             head_id, tail_id = ex['head_id'], ex['tail_id']
             if head_id not in self.graph:
                 self.graph[head_id] = set()
@@ -95,9 +95,9 @@ class LinkGraph:
     def get_neighbor_ids(self, entity_id: str, max_to_keep=10) -> List[str]:
         # make sure different calls return the same results
         neighbor_ids = self.graph.get(entity_id, set())
-        return sorted(list(neighbor_ids))[:max_to_keep]
+        return sorted(list(neighbor_ids))[:max_to_keep] # 按照实体id排序，获取max_to_keep个邻居实体，这里的邻居值得都是有同一个head的实体
 
-    def get_n_hop_entity_indices(self, entity_id: str,
+    def get_n_hop_entity_indices(self, entity_id: str, # 这块代码应该实际跑一下，要不不清楚具体的逻辑
                                  entity_dict: EntityDict,
                                  n_hop: int = 2,
                                  # return empty if exceeds this number
@@ -109,7 +109,7 @@ class LinkGraph:
         seen_eids.add(entity_id)
         queue = deque([entity_id])
         for i in range(n_hop):
-            len_q = len(queue)
+            len_q = len(queue) # 获取当前队列的长度，即当前跳数下需要处理的实体数量
             for _ in range(len_q):
                 tp = queue.popleft()
                 for node in self.graph.get(tp, set()):
@@ -118,7 +118,7 @@ class LinkGraph:
                         seen_eids.add(node)
                         if len(seen_eids) > max_nodes:
                             return set()
-        return set([entity_dict.entity_to_idx(e_id) for e_id in seen_eids])
+        return set([entity_dict.entity_to_idx(e_id) for e_id in seen_eids]) # 将已看到的实体 ID 集合转换为索引集合，通过 entity_dict 将实体 ID 映射到索引，然后返回这个索引集合
 
 
 def reverse_triplet(obj):

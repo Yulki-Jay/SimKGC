@@ -107,13 +107,13 @@ class Example:
                 'tail_token_type_ids': tail_encoded_inputs['token_type_ids'],
                 'head_token_ids': head_encoded_inputs['input_ids'],
                 'head_token_type_ids': head_encoded_inputs['token_type_ids'],
-                'obj': self}
+                'obj': self} # 后续的mask是手动进行构建的
 
 
 class Dataset(torch.utils.data.dataset.Dataset):
 
     def __init__(self, path, task, examples=None):
-        self.path_list = path.split(',')
+        self.path_list = path.split(',') # ['//home//jiangyunqi//KGC//SimKGC//data//WN18RR//train.txt.json']
         self.task = task
         assert all(os.path.exists(path) for path in self.path_list) or examples
         if examples:
@@ -133,7 +133,7 @@ class Dataset(torch.utils.data.dataset.Dataset):
         return self.examples[index].vectorize()
 
 
-def load_data(path: str,
+def load_data(path: str, # 加载数据用的
               add_forward_triplet: bool = True,
               add_backward_triplet: bool = True) -> List[Example]:
     assert path.endswith('.json'), 'Unsupported format: {}'.format(path)
@@ -156,9 +156,9 @@ def load_data(path: str,
     return examples
 
 
-def collate(batch_data: List[dict]) -> dict:
+def collate(batch_data: List[dict]) -> dict: # 将样本组合成batch
     hr_token_ids, hr_mask = to_indices_and_mask(
-        [torch.LongTensor(ex['hr_token_ids']) for ex in batch_data],
+        [torch.LongTensor(ex['hr_token_ids']) for ex in batch_data], # 这个batch_data 是在哪里定义的？
         pad_token_id=get_tokenizer().pad_token_id)
     hr_token_type_ids = to_indices_and_mask(
         [torch.LongTensor(ex['hr_token_type_ids']) for ex in batch_data],
@@ -194,20 +194,20 @@ def collate(batch_data: List[dict]) -> dict:
         'self_negative_mask': construct_self_negative_mask(batch_exs) if not args.is_test else None,
     }
 
-    return batch_dict
+    return batch_dict # 这是一个batch的数据，好奇怪。 inputs_id 和 mask 以及 token_type_id
 
 
 def to_indices_and_mask(batch_tensor, pad_token_id=0, need_mask=True):
-    mx_len = max([t.size(0) for t in batch_tensor])
+    mx_len = max([t.size(0) for t in batch_tensor]) # 每个batch中最长的长度
     batch_size = len(batch_tensor)
-    indices = torch.LongTensor(batch_size, mx_len).fill_(pad_token_id)
+    indices = torch.LongTensor(batch_size, mx_len).fill_(pad_token_id) # 初始化索引矩阵 [bsz, mx_len],先都用pad token进行填充，真聪明呀
     # For BERT, mask value of 1 corresponds to a valid position
     if need_mask:
-        mask = torch.ByteTensor(batch_size, mx_len).fill_(0)
+        mask = torch.ByteTensor(batch_size, mx_len).fill_(0) # 初始化mask矩阵 [bsz, mx_len]
     for i, t in enumerate(batch_tensor):
         indices[i, :len(t)].copy_(t)
         if need_mask:
-            mask[i, :len(t)].fill_(1)
+            mask[i, :len(t)].fill_(1) # 如果那个位置有东西，就填充1，否则保持初始
     if need_mask:
         return indices, mask
     else:

@@ -33,7 +33,7 @@ class Trainer:
         self._setup_training()
 
         # define loss function (criterion) and optimizer
-        self.criterion = nn.CrossEntropyLoss().cuda()
+        self.criterion = nn.CrossEntropyLoss().cuda() # 交叉熵损失函数
 
         self.optimizer = AdamW([p for p in self.model.parameters() if p.requires_grad],
                                lr=args.lr,
@@ -52,7 +52,7 @@ class Trainer:
             train_dataset,
             batch_size=args.batch_size,
             shuffle=True,
-            collate_fn=collate,
+            collate_fn=collate, # 定义如何将样本组合成batch
             num_workers=args.workers,
             pin_memory=True,
             drop_last=True)
@@ -69,9 +69,9 @@ class Trainer:
 
     def train_loop(self):
         if self.args.use_amp:
-            self.scaler = torch.cuda.amp.GradScaler()
+            self.scaler = torch.cuda.amp.GradScaler() # 使用混合精度进行训练
 
-        for epoch in range(self.args.epochs):
+        for epoch in range(self.args.epochs): # epochs = 50
             # train for one epoch
             self.train_epoch(epoch)
             self._run_eval(epoch=epoch)
@@ -143,7 +143,7 @@ class Trainer:
 
             if torch.cuda.is_available():
                 batch_dict = move_to_cuda(batch_dict)
-            batch_size = len(batch_dict['batch_data'])
+            batch_size = len(batch_dict['batch_data']) # 1024
 
             # compute output
             if self.args.use_amp:
@@ -152,8 +152,8 @@ class Trainer:
             else:
                 outputs = self.model(**batch_dict)
             outputs = get_model_obj(self.model).compute_logits(output_dict=outputs, batch_dict=batch_dict)
-            outputs = ModelOutput(**outputs)
-            logits, labels = outputs.logits, outputs.labels
+            outputs = ModelOutput(**outputs) # 输出一些数值
+            logits, labels = outputs.logits, outputs.labels # logits:[bsz,bsz+1] labels:[bsz] 之所以+1，是因为添加了一个负样本
             assert logits.size(0) == batch_size
             # head + relation -> tail
             loss = self.criterion(logits, labels)
@@ -164,12 +164,12 @@ class Trainer:
             top1.update(acc1.item(), batch_size)
             top3.update(acc3.item(), batch_size)
 
-            inv_t.update(outputs.inv_t, 1)
+            inv_t.update(outputs.inv_t, 1) # inv_t 是什么，其实我不太了解
             losses.update(loss.item(), batch_size)
 
             # compute gradient and do SGD step
             self.optimizer.zero_grad()
-            if self.args.use_amp:
+            if self.args.use_amp: # 混合精度训练
                 self.scaler.scale(loss).backward()
                 self.scaler.unscale_(self.optimizer)
                 torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.args.grad_clip)
@@ -187,7 +187,7 @@ class Trainer:
                 self._run_eval(epoch=epoch, step=i + 1)
         logger.info('Learning rate: {}'.format(self.scheduler.get_last_lr()[0]))
 
-    def _setup_training(self):
+    def _setup_training(self): # 多GPU训练
         if torch.cuda.device_count() > 1:
             self.model = torch.nn.DataParallel(self.model).cuda()
         elif torch.cuda.is_available():
@@ -195,7 +195,7 @@ class Trainer:
         else:
             logger.info('No gpu will be used')
 
-    def _create_lr_scheduler(self, num_training_steps):
+    def _create_lr_scheduler(self, num_training_steps): # 学习率调整
         if self.args.lr_scheduler == 'linear':
             return get_linear_schedule_with_warmup(optimizer=self.optimizer,
                                                    num_warmup_steps=self.args.warmup,

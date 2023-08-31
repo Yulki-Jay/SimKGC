@@ -52,7 +52,7 @@ def move_to_cuda(sample):
         if torch.is_tensor(maybe_tensor):
             return maybe_tensor.cuda(non_blocking=True)
         elif isinstance(maybe_tensor, dict):
-            return {key: _move_to_cuda(value) for key, value in maybe_tensor.items()}
+            return {key: _move_to_cuda(value) for key, value in maybe_tensor.items()} # key在cpu上，value在gpu上
         elif isinstance(maybe_tensor, list):
             return [_move_to_cuda(x) for x in maybe_tensor]
         elif isinstance(maybe_tensor, tuple):
@@ -63,7 +63,7 @@ def move_to_cuda(sample):
     return _move_to_cuda(sample)
 
 
-class AverageMeter(object):
+class AverageMeter(object): # 都是为了显示结果的函数
     """Computes and stores the average and current value"""
     def __init__(self, name, fmt=':f'):
         self.name = name
@@ -87,7 +87,7 @@ class AverageMeter(object):
         return fmtstr.format(**self.__dict__)
 
 
-class ProgressMeter(object):
+class ProgressMeter(object):  # 都是为了显示结果的函数
     def __init__(self, num_batches, meters, prefix=""):
         self.batch_fmtstr = self._get_batch_fmtstr(num_batches)
         self.meters = meters
@@ -99,6 +99,6 @@ class ProgressMeter(object):
         logger.info('\t'.join(entries))
 
     def _get_batch_fmtstr(self, num_batches: int) -> str:
-        num_digits = len(str(num_batches // 1))
+        num_digits = len(str(num_batches // 1)) # 3
         fmt = '{:' + str(num_digits) + 'd}'
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'

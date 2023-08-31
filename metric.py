@@ -3,7 +3,7 @@ import torch
 from typing import List
 
 
-def accuracy(output: torch.tensor, target: torch.tensor, topk=(1,)) -> List[torch.tensor]:
+def accuracy(output: torch.tensor, target: torch.tensor, topk=(1,)) -> List[torch.tensor]: # 这个我其实没太看懂
     """Computes the accuracy over the k top predictions for the specified values of k"""
     with torch.no_grad():
         maxk = max(topk)
