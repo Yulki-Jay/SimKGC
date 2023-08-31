@@ -14,3 +14,5 @@ python3 -u preprocess.py \
 --train-path "./data/${TASK}/train.txt" \
 --valid-path "./data/${TASK}/valid.txt" \
 --test-path "./data/${TASK}/test.txt"
+
+# 这里面只有4个超参数 task用来决定是使用哪个数据集

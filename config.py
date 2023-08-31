@@ -79,7 +79,7 @@ parser.add_argument('--neighbor-weight', default=0.0, type=float,
 parser.add_argument('--eval-model-path', default='', type=str, metavar='N',
                     help='path to model, only used for evaluation')
 
-args = parser.parse_args()
+args = parser.parse_args() # 解析了所有的参数
 
 assert not args.train_path or os.path.exists(args.train_path)
 assert args.pooling in ['cls', 'mean', 'max']

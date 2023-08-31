@@ -3,13 +3,17 @@ import json
 import argparse
 import multiprocessing as mp
 
-from multiprocessing import Pool
+from multiprocessing import Pool # Pool类表示一个工作进程池，可以向其中提交任务，然后用同步或异步的方式获取结果
 from typing import List
+'''
+该python文件的主要作用就是将各个数据集转换为json格式
+
+'''
 
 parser = argparse.ArgumentParser(description='preprocess')
-parser.add_argument('--task', default='wn18rr', type=str, metavar='N',
+parser.add_argument('--task', default='wn18rr', type=str, metavar='N', # metavar 作为参数的占位符
                     help='dataset name')
-parser.add_argument('--workers', default=2, type=int, metavar='N',
+parser.add_argument('--workers', default=2, type=int, metavar='N', # 这个配置是控制多进程的
                     help='number of workers')
 parser.add_argument('--train-path', default='', type=str, metavar='N',
                     help='path to training data')
@@ -19,10 +23,11 @@ parser.add_argument('--test-path', default='', type=str, metavar='N',
                     help='path to valid data')
 
 args = parser.parse_args()
-mp.set_start_method('fork')
+mp.set_start_method('fork') # Linux下可以使用fork或者spawn方法来启动进程，
+                            # 而windows下只能使用spawn方法，因为windows下没有fork方法，所以需要设置一下
 
 
-def _check_sanity(relation_id_to_str: dict):
+def _check_sanity(relation_id_to_str: dict): # 检查关系是否有重复的
     # We directly use normalized relation string as a key for training and evaluation,
     # make sure no two relations are normalized to the same surface form
     relation_str_to_id = {}
@@ -37,7 +42,8 @@ def _check_sanity(relation_id_to_str: dict):
     return
 
 
-def _normalize_relations(examples: List[dict], normalize_fn, is_train: bool):
+def _normalize_relations(examples: List[dict], normalize_fn, is_train: bool): 
+    # 将关系最终保存到json文件中，获取到所有的关系
     relation_id_to_str = {}
     for ex in examples:
         rel_str = normalize_fn(ex['relation'])
@@ -53,10 +59,12 @@ def _normalize_relations(examples: List[dict], normalize_fn, is_train: bool):
             print('Save {} relations to {}'.format(len(relation_id_to_str), out_path))
 
 
-wn18rr_id2ent = {}
+wn18rr_id2ent = {} # {实体id：（实体id，实体名称，实体描述）}
 
 
-def _load_wn18rr_texts(path: str):
+def _load_wn18rr_texts(path: str): 
+    # 加载wordnet-mlj12-definitions.txt文件 获取其对应的文本描述
+    # 保存到wn18rr_id2ent中
     global wn18rr_id2ent
     lines = open(path, 'r', encoding='utf-8').readlines()
     for line in lines:
@@ -85,8 +93,12 @@ def preprocess_wn18rr(path):
     if not wn18rr_id2ent:
         _load_wn18rr_texts('{}/wordnet-mlj12-definitions.txt'.format(os.path.dirname(path)))
     lines = open(path, 'r', encoding='utf-8').readlines()
-    pool = Pool(processes=args.workers)
+    pool = Pool(processes=args.workers) # 创建进程池
     examples = pool.map(_process_line_wn18rr, lines)
+    '''
+    代码使用进程池的map方法，将_process_line_wn18rr函数应用到lines列表中的每一行数据
+    以并行的方式进行处理。map方法返回一个结果列表，其中每个元素都是_process_line_wn18rr函数的返回值
+    '''
     pool.close()
     pool.join()
 
@@ -288,9 +300,15 @@ def dump_all_entities(examples, out_path, id2text: dict):
     json.dump(list(id2entity.values()), open(out_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=4)
 
 
+'''
+获得eneties.json文件
+格式为 [{"entity_id": "00260881", 
+        "entity": "land_reform_NN_1", 
+        "entity_desc": "a redistribution of agricultural land (especially by government action)"}, ...{}}]
+'''
 def main():
     all_examples = []
-    for path in [args.train_path, args.valid_path, args.test_path]:
+    for path in [args.train_path, args.valid_path, args.test_path]: # 依次处理训练集、验证集、测试集
         assert os.path.exists(path)
         print('Process {}...'.format(path))
         if args.task.lower() == 'wn18rr':

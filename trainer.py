@@ -18,7 +18,7 @@ from models import build_model, ModelOutput
 from dict_hub import build_tokenizer
 from logger_config import logger
 
-
+# 训练过程主要在这里
 class Trainer:
 
     def __init__(self, args, ngpus_per_node):

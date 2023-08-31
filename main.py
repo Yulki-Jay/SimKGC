@@ -1,18 +1,12 @@
 import torch
 import json
-import torch.backends.cudnn as cudnn
+import torch.backends.cudnn as cudnn # 提升训练和推理速度
 
-from config import args
-from trainer import Trainer
-from logger_config import logger
+from config import args # args 传递了所有的参数，已经解析好的了
+from trainer import Trainer # 核心都在这里
+from logger_config import logger # logger也是一个全局的，可以在任何地方使用，实现日志信息在整个项目中的一致性记录
 import time
 import datetime
-
-
-
-
-
-
 
 
 def main():
@@ -21,14 +15,14 @@ def main():
     ngpus_per_node = torch.cuda.device_count()
     cudnn.benchmark = True
 
-    logger.info("Use {} gpus for training".format(ngpus_per_node))
+    logger.info("Use {} gpus for training".format(ngpus_per_node)) 
 
-    trainer = Trainer(args, ngpus_per_node=ngpus_per_node)
-    logger.info('Args={}'.format(json.dumps(args.__dict__, ensure_ascii=False, indent=4)))
-    trainer.train_loop()
+    trainer = Trainer(args, ngpus_per_node=ngpus_per_node) # 构造函数
+    logger.info('Args={}'.format(json.dumps(args.__dict__, ensure_ascii=False, indent=4))) # 会输出所有的参数
+    trainer.train_loop() # 这是核心
     end_datetime = datetime.datetime.now()
     end_time = time.time()
-    print(f'start time :{start_datetime} \nend time :{end_datetime} \ntotal time :{end_time - start_time}')
+    print(f'start time :{start_datetime} \nend time :{end_datetime} \ntotal time :{end_time - start_time}') # 增加了显示训练时间的功能
 
 
 if __name__ == '__main__':
