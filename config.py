@@ -81,6 +81,34 @@ parser.add_argument('--eval-model-path', default='', type=str, metavar='N',
 
 args = parser.parse_args() # 解析了所有的参数
 
+from datetime import datetime
+
+def modify_args(args): # 新添加的函数，方便进行调试，超参数只要修改这就可以了
+    dir = os.getcwd()
+    args.model_dir = os.path.join(dir, 'checkpoint', '{}_{}'.format(
+    'wn18rr','avc'))
+    args.pretrained_model = 'bert-base-uncased'
+    args.pooling='mean'
+    args.lr=5e-5
+    args.use_link_graph=True
+    args.train_path='//home//jiangyunqi//KGC//SimKGC//data//WN18RR//train.txt.json'
+    args.valid_path='//home//jiangyunqi/KGC//SimKGC//data//WN18RR//valid.txt.json'
+    args.task='wn18rr'
+    args.batch_size=256 # 1024 可以在4张卡，一张卡会爆显存
+    args.print_freq=20
+    args.additive_margin=0.02
+    args.use_amp=True
+    args.use_self_negative=True
+    args.pre_batch=0
+    args.finetune_t=True
+    args.epochs=50
+    args.workers=4
+    args.max_to_keep=3
+    print(args.model_dir)
+    return args
+args = modify_args(args)
+
+
 assert not args.train_path or os.path.exists(args.train_path)
 assert args.pooling in ['cls', 'mean', 'max']
 assert args.task.lower() in ['wn18rr', 'fb15k237', 'wiki5m_ind', 'wiki5m_trans']
@@ -108,3 +136,11 @@ if not torch.cuda.is_available():
     args.use_amp = False
     args.print_freq = 1
     warnings.warn('GPU is not available, set use_amp=False and print_freq=1')
+
+
+
+def mian():
+    print(args.task)
+    
+if __name__ == '__main__':
+    mian()
