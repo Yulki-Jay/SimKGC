@@ -1,0 +1,1108 @@
+开始执行
+node29               Tue Oct 10 19:00:07 2023  515.65.01
+[0] NVIDIA A40       | 49'C,   0 % |   573 / 46068 MB |
+[1] NVIDIA A40       | 45'C,   0 % |   573 / 46068 MB |
+[2] NVIDIA A40       | 47'C,   0 % |   573 / 46068 MB |
+[3] NVIDIA A40       | 46'C,   0 % |   573 / 46068 MB |
++ set -e
++ TASK=WN18RR
++++ dirname scripts/train_wn.sh
+++ cd scripts
+++ cd ..
+++ pwd
++ DIR=/home/jiangyunqi/KGC/SimKGC
++ echo 'working directory: /home/jiangyunqi/KGC/SimKGC'
+working directory: /home/jiangyunqi/KGC/SimKGC
++ '[' -z '' ']'
+++ date +%F-%H%M.%S
++ OUTPUT_DIR=/home/jiangyunqi/KGC/SimKGC/checkpoint/WN18RR_2023-10-10-1900.07
++ '[' -z '' ']'
++ DATA_DIR=/home/jiangyunqi/KGC/SimKGC/data/WN18RR
++ python3 -u main.py --model-dir /home/jiangyunqi/KGC/SimKGC/checkpoint/WN18RR_2023-10-10-1900.07 --pretrained-model bert-base-uncased --pooling mean --lr 5e-5 --use-link-graph --train-path /home/jiangyunqi/KGC/SimKGC/data/WN18RR/train.txt.json --valid-path /home/jiangyunqi/KGC/SimKGC/data/WN18RR/valid.txt.json --task WN18RR --batch-size 1024 --print-freq 20 --additive-margin 0.02 --use-amp --use-self-negative --pre-batch 0 --finetune-t --epochs 50 --workers 4 --max-to-keep 3
+wandb: Currently logged in as: 1999myfuture (yulki). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.15.12 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.15.10
+wandb: Run data is saved locally in /fs1/private/user/jiangyunqi/KGC/SimKGC/wandb/run-20231010_190016-mvd8ulu8
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run wn18rr
+wandb: ⭐️ View project at https://wandb.ai/yulki/SimKGC-LinkPrediction
+wandb: 🚀 View run at https://wandb.ai/yulki/SimKGC-LinkPrediction/runs/mvd8ulu8
+[2023-10-10 19:00:33,149 INFO] Load 40943 entities from /home/jiangyunqi/KGC/SimKGC/data/WN18RR/entities.json
+[2023-10-10 19:00:33,152 INFO] Triplets path: ['/home/jiangyunqi/KGC/SimKGC/data/WN18RR/train.txt.json']
+[2023-10-10 19:00:33,627 INFO] Triplet statistics: 22 relations, 173670 triplets
+[2023-10-10 19:00:33,628 INFO] Start to build link graph from /home/jiangyunqi/KGC/SimKGC/data/WN18RR/train.txt.json
+[2023-10-10 19:00:33,899 INFO] Done build link graph with 40559 nodes
+[2023-10-10 19:00:34,551 INFO] Use 4 gpus for training
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /bert-base-uncased/resolve/main/tokenizer_config.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7e3f94e070>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 971f6320-2403-4268-9de2-c16ab8ebb37c)')' thrown while requesting HEAD https://huggingface.co/bert-base-uncased/resolve/main/tokenizer_config.json
+[2023-10-10 19:00:44,585 WARNING] '(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /bert-base-uncased/resolve/main/tokenizer_config.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7e3f94e070>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 971f6320-2403-4268-9de2-c16ab8ebb37c)')' thrown while requesting HEAD https://huggingface.co/bert-base-uncased/resolve/main/tokenizer_config.json
+[2023-10-10 19:00:44,812 INFO] Build tokenizer from bert-base-uncased
+[2023-10-10 19:00:44,814 INFO] => creating model
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /bert-base-uncased/resolve/main/config.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7e3fa5a6a0>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: c5ae0e37-7854-4229-b19a-ec842e385257)')' thrown while requesting HEAD https://huggingface.co/bert-base-uncased/resolve/main/config.json
+[2023-10-10 19:00:54,847 WARNING] '(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /bert-base-uncased/resolve/main/config.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7e3fa5a6a0>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: c5ae0e37-7854-4229-b19a-ec842e385257)')' thrown while requesting HEAD https://huggingface.co/bert-base-uncased/resolve/main/config.json
+'(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /bert-base-uncased/resolve/main/config.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7e3f227e50>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 977e6e2b-6b36-4643-9e54-05d50592c9e2)')' thrown while requesting HEAD https://huggingface.co/bert-base-uncased/resolve/main/config.json
+[2023-10-10 19:01:04,920 WARNING] '(MaxRetryError("HTTPSConnectionPool(host='huggingface.co', port=443): Max retries exceeded with url: /bert-base-uncased/resolve/main/config.json (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7e3f227e50>, 'Connection to huggingface.co timed out. (connect timeout=10)'))"), '(Request ID: 977e6e2b-6b36-4643-9e54-05d50592c9e2)')' thrown while requesting HEAD https://huggingface.co/bert-base-uncased/resolve/main/config.json
+[2023-10-10 19:01:08,335 INFO] CustomBertModel(
+  (hr_bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (tail_bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1, inplace=False)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1, inplace=False)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+            (intermediate_act_fn): GELUActivation()
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm((768,), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+)
+/home/jiangyunqi/anaconda3/envs/SimKGC/lib/python3.9/site-packages/transformers/optimization.py:411: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+[2023-10-10 19:01:10,753 INFO] module.log_inv_t: 1.0
+[2023-10-10 19:01:10,753 INFO] module.hr_bert.embeddings.word_embeddings.weight: 23440896
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.embeddings.position_embeddings.weight: 393216
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.embeddings.token_type_embeddings.weight: 1536
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.embeddings.LayerNorm.weight: 768
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.embeddings.LayerNorm.bias: 768
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.encoder.layer.0.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.encoder.layer.0.attention.self.query.bias: 768
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.encoder.layer.0.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.encoder.layer.0.attention.self.key.bias: 768
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.encoder.layer.0.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,754 INFO] module.hr_bert.encoder.layer.0.attention.self.value.bias: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.output.dense.weight: 2359296
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.output.dense.bias: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.0.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,755 INFO] module.hr_bert.encoder.layer.1.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.self.query.bias: 768
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.self.key.bias: 768
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.self.value.bias: 768
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,756 INFO] module.hr_bert.encoder.layer.1.output.dense.weight: 2359296
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.1.output.dense.bias: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.1.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.1.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.self.query.bias: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.self.key.bias: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.self.value.bias: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,757 INFO] module.hr_bert.encoder.layer.2.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.output.dense.weight: 2359296
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.output.dense.bias: 768
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.2.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.3.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.3.attention.self.query.bias: 768
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.3.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,758 INFO] module.hr_bert.encoder.layer.3.attention.self.key.bias: 768
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.attention.self.value.bias: 768
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.output.dense.weight: 2359296
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.output.dense.bias: 768
+[2023-10-10 19:01:10,759 INFO] module.hr_bert.encoder.layer.3.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.3.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.self.query.bias: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.self.key.bias: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.self.value.bias: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,760 INFO] module.hr_bert.encoder.layer.4.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.4.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.4.output.dense.weight: 2359296
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.4.output.dense.bias: 768
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.4.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.4.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.self.query.bias: 768
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.self.key.bias: 768
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.self.value.bias: 768
+[2023-10-10 19:01:10,761 INFO] module.hr_bert.encoder.layer.5.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.output.dense.weight: 2359296
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.output.dense.bias: 768
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.5.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.6.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,762 INFO] module.hr_bert.encoder.layer.6.attention.self.query.bias: 768
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.self.key.bias: 768
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.self.value.bias: 768
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,763 INFO] module.hr_bert.encoder.layer.6.output.dense.weight: 2359296
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.6.output.dense.bias: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.6.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.6.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.self.query.bias: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.self.key.bias: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.self.value.bias: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,764 INFO] module.hr_bert.encoder.layer.7.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.output.dense.weight: 2359296
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.output.dense.bias: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.7.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.8.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.8.attention.self.query.bias: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.8.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.8.attention.self.key.bias: 768
+[2023-10-10 19:01:10,765 INFO] module.hr_bert.encoder.layer.8.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.attention.self.value.bias: 768
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.output.dense.weight: 2359296
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.output.dense.bias: 768
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,766 INFO] module.hr_bert.encoder.layer.8.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.self.query.bias: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.self.key.bias: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.self.value.bias: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,767 INFO] module.hr_bert.encoder.layer.9.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.9.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.9.output.dense.weight: 2359296
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.9.output.dense.bias: 768
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.9.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.9.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.self.query.bias: 768
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.self.key.bias: 768
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.self.value.bias: 768
+[2023-10-10 19:01:10,768 INFO] module.hr_bert.encoder.layer.10.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.output.dense.weight: 2359296
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.output.dense.bias: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.10.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.11.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.11.attention.self.query.bias: 768
+[2023-10-10 19:01:10,769 INFO] module.hr_bert.encoder.layer.11.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.self.key.bias: 768
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.self.value.bias: 768
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.output.dense.weight: 2359296
+[2023-10-10 19:01:10,770 INFO] module.hr_bert.encoder.layer.11.output.dense.bias: 768
+[2023-10-10 19:01:10,771 INFO] module.hr_bert.encoder.layer.11.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,771 INFO] module.hr_bert.encoder.layer.11.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,771 INFO] module.hr_bert.pooler.dense.weight: 589824
+[2023-10-10 19:01:10,771 INFO] module.hr_bert.pooler.dense.bias: 768
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.embeddings.word_embeddings.weight: 23440896
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.embeddings.position_embeddings.weight: 393216
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.embeddings.token_type_embeddings.weight: 1536
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.embeddings.LayerNorm.weight: 768
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.embeddings.LayerNorm.bias: 768
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.encoder.layer.0.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.encoder.layer.0.attention.self.query.bias: 768
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.encoder.layer.0.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,771 INFO] module.tail_bert.encoder.layer.0.attention.self.key.bias: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.attention.self.value.bias: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.output.dense.weight: 2359296
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.output.dense.bias: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,772 INFO] module.tail_bert.encoder.layer.0.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.self.query.bias: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.self.key.bias: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.self.value.bias: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,773 INFO] module.tail_bert.encoder.layer.1.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.1.output.dense.weight: 2359296
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.1.output.dense.bias: 768
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.1.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.1.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.self.query.bias: 768
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.self.key.bias: 768
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.self.value.bias: 768
+[2023-10-10 19:01:10,774 INFO] module.tail_bert.encoder.layer.2.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.output.dense.weight: 2359296
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.output.dense.bias: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.2.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.3.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.3.attention.self.query.bias: 768
+[2023-10-10 19:01:10,775 INFO] module.tail_bert.encoder.layer.3.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.self.key.bias: 768
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.self.value.bias: 768
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.output.dense.weight: 2359296
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.output.dense.bias: 768
+[2023-10-10 19:01:10,776 INFO] module.tail_bert.encoder.layer.3.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.3.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.self.query.bias: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.self.key.bias: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.self.value.bias: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,777 INFO] module.tail_bert.encoder.layer.4.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.4.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.4.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.4.output.dense.weight: 2359296
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.4.output.dense.bias: 768
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.4.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.4.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.5.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.5.attention.self.query.bias: 768
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.5.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.5.attention.self.key.bias: 768
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.5.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,778 INFO] module.tail_bert.encoder.layer.5.attention.self.value.bias: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.output.dense.weight: 2359296
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.output.dense.bias: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.5.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.6.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,779 INFO] module.tail_bert.encoder.layer.6.attention.self.query.bias: 768
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.self.key.bias: 768
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.self.value.bias: 768
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,780 INFO] module.tail_bert.encoder.layer.6.output.dense.weight: 2359296
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.6.output.dense.bias: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.6.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.6.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.self.query.bias: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.self.key.bias: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.self.value.bias: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,781 INFO] module.tail_bert.encoder.layer.7.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.output.dense.weight: 2359296
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.output.dense.bias: 768
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.7.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.8.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.8.attention.self.query.bias: 768
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.8.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,782 INFO] module.tail_bert.encoder.layer.8.attention.self.key.bias: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.attention.self.value.bias: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.output.dense.weight: 2359296
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.output.dense.bias: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,783 INFO] module.tail_bert.encoder.layer.8.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.self.query.bias: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.self.key.bias: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.self.value.bias: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,784 INFO] module.tail_bert.encoder.layer.9.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.9.output.dense.weight: 2359296
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.9.output.dense.bias: 768
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.9.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.9.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.self.query.bias: 768
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.self.key.bias: 768
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.self.value.bias: 768
+[2023-10-10 19:01:10,785 INFO] module.tail_bert.encoder.layer.10.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.output.dense.weight: 2359296
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.output.dense.bias: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.10.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.11.attention.self.query.weight: 589824
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.11.attention.self.query.bias: 768
+[2023-10-10 19:01:10,786 INFO] module.tail_bert.encoder.layer.11.attention.self.key.weight: 589824
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.self.key.bias: 768
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.self.value.weight: 589824
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.self.value.bias: 768
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.output.dense.weight: 589824
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.output.dense.bias: 768
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.attention.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.intermediate.dense.weight: 2359296
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.intermediate.dense.bias: 3072
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.output.dense.weight: 2359296
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.output.dense.bias: 768
+[2023-10-10 19:01:10,787 INFO] module.tail_bert.encoder.layer.11.output.LayerNorm.weight: 768
+[2023-10-10 19:01:10,788 INFO] module.tail_bert.encoder.layer.11.output.LayerNorm.bias: 768
+[2023-10-10 19:01:10,788 INFO] module.tail_bert.pooler.dense.weight: 589824
+[2023-10-10 19:01:10,788 INFO] module.tail_bert.pooler.dense.bias: 768
+[2023-10-10 19:01:10,788 INFO] Number of parameters: 218.0M
+[2023-10-10 19:01:10,788 INFO] In test mode: False
+[2023-10-10 19:01:10,878 INFO] Load 86835 examples from /home/jiangyunqi/KGC/SimKGC/data/WN18RR/train.txt.json
+[2023-10-10 19:01:11,301 INFO] In test mode: False
+[2023-10-10 19:01:11,306 INFO] Load 3034 examples from /home/jiangyunqi/KGC/SimKGC/data/WN18RR/valid.txt.json
+[2023-10-10 19:01:11,313 INFO] Total training steps: 8479, warmup steps: 400
+[2023-10-10 19:01:11,314 INFO] Args={
+    "pretrained_model": "bert-base-uncased",
+    "task": "WN18RR",
+    "train_path": "/home/jiangyunqi/KGC/SimKGC/data/WN18RR/train.txt.json",
+    "valid_path": "/home/jiangyunqi/KGC/SimKGC/data/WN18RR/valid.txt.json",
+    "model_dir": "/home/jiangyunqi/KGC/SimKGC/checkpoint/WN18RR_2023-10-10-1900.07",
+    "warmup": 400,
+    "max_to_keep": 3,
+    "grad_clip": 10.0,
+    "pooling": "mean",
+    "dropout": 0.1,
+    "use_amp": true,
+    "t": 0.05,
+    "use_link_graph": true,
+    "eval_every_n_step": 10000,
+    "pre_batch": 0,
+    "pre_batch_weight": 0.5,
+    "additive_margin": 0.02,
+    "finetune_t": true,
+    "max_num_tokens": 50,
+    "use_self_negative": true,
+    "workers": 4,
+    "epochs": 50,
+    "batch_size": 1024,
+    "lr": 5e-05,
+    "lr_scheduler": "linear",
+    "weight_decay": 0.0001,
+    "print_freq": 20,
+    "seed": null,
+    "is_test": false,
+    "rerank_n_hop": 2,
+    "neighbor_weight": 0.0,
+    "eval_model_path": ""
+}
+[2023-10-10 19:01:22,905 INFO] Epoch: [0][  0/169]	Loss 10.62 (10.62)	InvT  20.00 ( 20.00)	Acc@1   0.00 (  0.00)	Acc@3  19.73 ( 19.73)
+[2023-10-10 19:01:44,061 INFO] Epoch: [0][ 20/169]	Loss 10.03 (10.32)	InvT  20.00 ( 20.00)	Acc@1   0.10 (  0.01)	Acc@3  22.75 ( 20.94)
+[2023-10-10 19:02:05,344 INFO] Epoch: [0][ 40/169]	Loss 8.866 (9.786)	InvT  20.00 ( 20.00)	Acc@1   0.10 (  0.01)	Acc@3  34.08 ( 25.58)
+[2023-10-10 19:02:26,839 INFO] Epoch: [0][ 60/169]	Loss 7.914 (9.287)	InvT  20.00 ( 20.00)	Acc@1   0.00 (  0.01)	Acc@3  40.04 ( 29.33)
+[2023-10-10 19:02:48,339 INFO] Epoch: [0][ 80/169]	Loss 7.246 (8.874)	InvT  19.99 ( 20.00)	Acc@1   0.00 (  0.02)	Acc@3  43.55 ( 32.27)
+[2023-10-10 19:03:09,696 INFO] Epoch: [0][100/169]	Loss 6.954 (8.536)	InvT  19.99 ( 20.00)	Acc@1   0.10 (  0.03)	Acc@3  45.41 ( 34.71)
+[2023-10-10 19:03:31,011 INFO] Epoch: [0][120/169]	Loss 6.255 (8.215)	InvT  19.99 ( 20.00)	Acc@1   7.32 (  0.58)	Acc@3  52.05 ( 37.10)
+[2023-10-10 19:03:52,337 INFO] Epoch: [0][140/169]	Loss 5.741 (7.879)	InvT  19.98 ( 19.99)	Acc@1  12.99 (  1.95)	Acc@3  57.42 ( 39.90)
+[2023-10-10 19:04:13,937 INFO] Epoch: [0][160/169]	Loss 5.135 (7.563)	InvT  19.98 ( 19.99)	Acc@1  20.51 (  3.71)	Acc@3  62.30 ( 42.51)
+[2023-10-10 19:04:22,556 INFO] Learning rate: 2.1125000000000002e-05
+[2023-10-10 19:04:27,901 INFO] Epoch 0, valid metric: {"Acc@1": 39.98, "Acc@3": 66.2, "loss": 2.478}

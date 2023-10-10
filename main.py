@@ -1,3 +1,7 @@
+import os
+import wandblog
+#os.environ["CUDA_VISIBLE_DEVICES"] = "0,1" 
+
 import torch
 import json
 import torch.backends.cudnn as cudnn # 提升训练和推理速度
@@ -12,8 +16,8 @@ import datetime
 def main():
     start_time = time.time()
     start_datetime = datetime.datetime.now()
-    ngpus_per_node = torch.cuda.device_count()
-    cudnn.benchmark = True
+    ngpus_per_node = torch.cuda.device_count() # 查看有几个显卡
+    cudnn.benchmark = True # 这个需要考虑是否开启，因为在不同的硬件上的性能影响可能不同
 
     logger.info("Use {} gpus for training".format(ngpus_per_node)) 
 

@@ -1,0 +1,38 @@
+wandb_version: 1
+
+model:
+  desc: null
+  value: bert-base-uncased
+epochs:
+  desc: null
+  value: 50
+batch_size:
+  desc: null
+  value: 1024
+_wandb:
+  desc: null
+  value:
+    python_version: 3.9.17
+    cli_version: 0.15.10
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1696935616.141588
+    t:
+      1:
+      - 55
+      2:
+      - 1
+      - 11
+      - 49
+      - 55
+      - 71
+      - 98
+      3:
+      - 13
+      - 16
+      - 23
+      4: 3.9.17
+      5: 0.15.10
+      8:
+      - 5
+    framework: huggingface

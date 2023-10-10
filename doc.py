@@ -14,7 +14,7 @@ from logger_config import logger
 entity_dict = get_entity_dict()
 if args.use_link_graph:
     # make the lazy data loading happen
-    get_link_graph()
+    get_link_graph() # 主要也没有变量，就是调用了一下，让他加载数据？？？？理由是什么
 
 
 def _custom_tokenize(text: str,
@@ -31,7 +31,7 @@ def _custom_tokenize(text: str,
 
 def _parse_entity_name(entity: str) -> str:
     if args.task.lower() == 'wn18rr':
-        # family_alcidae_NN_1
+        # family_alcidae_NN_1 ==> family alcidae
         entity = ' '.join(entity.split('_')[:-2])
         return entity
     # a very small fraction of entities in wiki5m do not have name
@@ -40,7 +40,7 @@ def _parse_entity_name(entity: str) -> str:
 
 def _concat_name_desc(entity: str, entity_desc: str) -> str:
     if entity_desc.startswith(entity):
-        entity_desc = entity_desc[len(entity):].strip()
+        entity_desc = entity_desc[len(entity):].strip() # 删除空格？运行到的时候在仔细看一下
     if entity_desc:
         return '{}: {}'.format(entity, entity_desc)
     return entity
@@ -53,7 +53,7 @@ def get_neighbor_desc(head_id: str, tail_id: str = None) -> str:
         neighbor_ids = [n_id for n_id in neighbor_ids if n_id != tail_id]
     entities = [entity_dict.get_entity_by_id(n_id).entity for n_id in neighbor_ids]
     entities = [_parse_entity_name(entity) for entity in entities]
-    return ' '.join(entities)
+    return ' '.join(entities) # 这是把所有的实体名称都拼接起来了，当做邻居
 
 
 class Example:
@@ -63,7 +63,7 @@ class Example:
         self.tail_id = tail_id
         self.relation = relation
 
-    @property
+    @property # 使其能够像访问对象属性一样被访问，而不需要使用方法调用的括号
     def head_desc(self):
         if not self.head_id:
             return ''
@@ -86,20 +86,20 @@ class Example:
     def vectorize(self) -> dict:
         head_desc, tail_desc = self.head_desc, self.tail_desc
         if args.use_link_graph:
-            if len(head_desc.split()) < 20:
-                head_desc += ' ' + get_neighbor_desc(head_id=self.head_id, tail_id=self.tail_id)
+            if len(head_desc.split()) < 20: # 这是20个单词的意思
+                head_desc += ' ' + get_neighbor_desc(head_id=self.head_id, tail_id=self.tail_id) # 把邻居实体名称也加进来了
             if len(tail_desc.split()) < 20:
                 tail_desc += ' ' + get_neighbor_desc(head_id=self.tail_id, tail_id=self.head_id)
 
         head_word = _parse_entity_name(self.head)
-        head_text = _concat_name_desc(head_word, head_desc)
+        head_text = _concat_name_desc(head_word, head_desc) # entity:entity_desc
         hr_encoded_inputs = _custom_tokenize(text=head_text,
                                              text_pair=self.relation)
 
         head_encoded_inputs = _custom_tokenize(text=head_text)
 
         tail_word = _parse_entity_name(self.tail)
-        tail_encoded_inputs = _custom_tokenize(text=_concat_name_desc(tail_word, tail_desc))
+        tail_encoded_inputs = _custom_tokenize(text=_concat_name_desc(tail_word, tail_desc)) # 句子就是一个，而非两个
 
         return {'hr_token_ids': hr_encoded_inputs['input_ids'],
                 'hr_token_type_ids': hr_encoded_inputs['token_type_ids'],
@@ -141,9 +141,9 @@ def load_data(path: str, # 加载数据用的
     logger.info('In test mode: {}'.format(args.is_test))
 
     data = json.load(open(path, 'r', encoding='utf-8'))
-    logger.info('Load {} examples from {}'.format(len(data), path))
+    logger.info('Load {} examples from {}'.format(len(data), path)) # 这里加载的都是正例子
 
-    cnt = len(data)
+    cnt = len(data) # 86,835
     examples = []
     for i in range(cnt):
         obj = data[i]
@@ -153,12 +153,12 @@ def load_data(path: str, # 加载数据用的
             examples.append(Example(**reverse_triplet(obj)))
         data[i] = None
 
-    return examples
+    return examples # 173,670
 
 
 def collate(batch_data: List[dict]) -> dict: # 将样本组合成batch
     hr_token_ids, hr_mask = to_indices_and_mask(
-        [torch.LongTensor(ex['hr_token_ids']) for ex in batch_data], # 这个batch_data 是在哪里定义的？
+        [torch.LongTensor(ex['hr_token_ids']) for ex in batch_data], # 这个batch_data 是dataloader中的
         pad_token_id=get_tokenizer().pad_token_id)
     hr_token_type_ids = to_indices_and_mask(
         [torch.LongTensor(ex['hr_token_type_ids']) for ex in batch_data],
@@ -190,7 +190,7 @@ def collate(batch_data: List[dict]) -> dict: # 将样本组合成batch
         'head_mask': head_mask,
         'head_token_type_ids': head_token_type_ids,
         'batch_data': batch_exs,
-        'triplet_mask': construct_mask(row_exs=batch_exs) if not args.is_test else None,
+        'triplet_mask': construct_mask(row_exs=batch_exs) if not args.is_test else None, # 一会真正跑没一个batch的时候在开始进行
         'self_negative_mask': construct_self_negative_mask(batch_exs) if not args.is_test else None,
     }
 

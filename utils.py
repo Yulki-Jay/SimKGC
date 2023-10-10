@@ -16,7 +16,7 @@ class AttrDict:
 def save_checkpoint(state: dict, is_best: bool, filename: str):
     torch.save(state, filename)
     if is_best:
-        shutil.copyfile(filename, os.path.dirname(filename) + '/model_best.mdl')
+        shutil.copyfile(filename, os.path.dirname(filename) + '/model_best.mdl') # 如果是最佳模型，将检查点文件 filename 复制到同一目录下的 'model_best.mdl' 文件中
     shutil.copyfile(filename, os.path.dirname(filename) + '/model_last.mdl')
 
 
@@ -33,7 +33,7 @@ def report_num_trainable_parameters(model: torch.nn.Module) -> int:
     num_parameters = 0
     for name, p in model.named_parameters():
         if p.requires_grad:
-            num_parameters += np.prod(list(p.size()))
+            num_parameters += np.prod(list(p.size())) # prob是计算参数的总数
             logger.info('{}: {}'.format(name, np.prod(list(p.size()))))
 
     logger.info('Number of parameters: {}M'.format(num_parameters // 10**6))

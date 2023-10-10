@@ -27,11 +27,11 @@ parser.add_argument('--pooling', default='cls', type=str, metavar='N',
                     help='bert pooling')
 parser.add_argument('--dropout', default=0.1, type=float, metavar='N',
                     help='dropout on final linear layer')
-parser.add_argument('--use-amp', action='store_true',
+parser.add_argument('--use-amp', action='store_true', # 自动混合精度计算
                     help='Use amp if available')
 parser.add_argument('--t', default=0.05, type=float,
                     help='temperature parameter')
-parser.add_argument('--use-link-graph', action='store_true',
+parser.add_argument('--use-link-graph', action='store_true', # 这个应该仔细看一下
                     help='use neighbors from link graph as context')
 parser.add_argument('--eval-every-n-step', default=10000, type=int,
                     help='evaluate every n steps')
@@ -69,7 +69,7 @@ parser.add_argument('-p', '--print-freq', default=50, type=int,
 parser.add_argument('--seed', default=None, type=int,
                     help='seed for initializing training. ')
 
-# only used for evaluation
+# only used for evaluation,这一部分还不确定作用是什么
 parser.add_argument('--is-test', action='store_true',
                     help='is in test mode or not')
 parser.add_argument('--rerank-n-hop', default=2, type=int,
@@ -104,9 +104,9 @@ def modify_args(args): # 新添加的函数，方便进行调试，超参数只�
     args.epochs=50
     args.workers=4
     args.max_to_keep=3
-    print(args.model_dir)
+    print(args.model_dir) 
     return args
-args = modify_args(args)
+# args = modify_args(args)
 
 
 assert not args.train_path or os.path.exists(args.train_path)
@@ -115,7 +115,7 @@ assert args.task.lower() in ['wn18rr', 'fb15k237', 'wiki5m_ind', 'wiki5m_trans']
 assert args.lr_scheduler in ['linear', 'cosine']
 
 if args.model_dir:
-    os.makedirs(args.model_dir, exist_ok=True)
+    os.makedirs(args.model_dir, exist_ok=True) # 目录如果已经存在的话，不要跑出错误，而是忽略
 else:
     assert os.path.exists(args.eval_model_path), 'One of args.model_dir and args.eval_model_path should be valid path'
     args.model_dir = os.path.dirname(args.eval_model_path)
@@ -123,7 +123,7 @@ else:
 if args.seed is not None:
     random.seed(args.seed)
     torch.manual_seed(args.seed)
-    cudnn.deterministic = True
+    cudnn.deterministic = True # 确保了在相同条件下，每次运行模型时都会获得相同的结果，但是会导致性能上的损失，尽量在训练的过程中不启动他
 
 try:
     if args.use_amp:

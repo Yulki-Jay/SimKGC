@@ -40,7 +40,7 @@ def _init_link_graph():
 
 
 def get_entity_dict():
-    _init_entity_dict()
+    _init_entity_dict() # 初始化entity_dict
     return entity_dict
 
 

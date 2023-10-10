@@ -3,11 +3,14 @@ from copy import deepcopy
 
 import torch
 import torch.nn as nn
+from peft import get_peft_model, prepare_model_for_int8_training,LoraConfig
+
 
 from dataclasses import dataclass
 from transformers import AutoModel, AutoConfig
 
 from triplet_mask import construct_mask
+
 
 
 def build_model(args) -> nn.Module:
@@ -23,24 +26,42 @@ class ModelOutput:
     tail_vector: torch.tensor
 
 
+def get_lora_model(model_name): #这个目前还是有问题的，等一会再次进行修改
+    model = AutoModel.from_pretrained(model_name)
+    config = LoraConfig(
+        r = 32,
+        lora_alpha=16,
+        lora_dropout=0.05,
+        bias = "none",
+        target_modules=["query","value"],
+        task_type="CAUSAL_LM",
+    )
+    model = get_peft_model(model, config)
+    model.print_trainable_parameters()
+    return model
+    
+    
+
+
 class CustomBertModel(nn.Module, ABC):
     def __init__(self, args):
         super().__init__()
         self.args = args
         self.config = AutoConfig.from_pretrained(args.pretrained_model)
         self.log_inv_t = torch.nn.Parameter(torch.tensor(1.0 / args.t).log(), requires_grad=args.finetune_t) # 1/t
-        self.add_margin = args.additive_margin
-        self.batch_size = args.batch_size
-        self.pre_batch = args.pre_batch
-        num_pre_batch_vectors = max(1, self.pre_batch) * self.batch_size
-        random_vector = torch.randn(num_pre_batch_vectors, self.config.hidden_size) # 1024 * 768
+        self.add_margin = args.additive_margin # γ = 0.02
+        self.batch_size = args.batch_size # 256
+        self.pre_batch = args.pre_batch # 0
+        num_pre_batch_vectors = max(1, self.pre_batch) * self.batch_size # [256]
+        random_vector = torch.randn(num_pre_batch_vectors, self.config.hidden_size) # [256 , 768]
         self.register_buffer("pre_batch_vectors",
                              nn.functional.normalize(random_vector, dim=1),
-                             persistent=False)
+                             persistent=False) # 通过这行代码，你可以在模型中创建一个名为pre_batch_vectors的缓冲区，并且将其初始化为经过归一化处理的随机向量。这个缓冲区可以在模型的前向传播中使用，并且不会作为模型的可训练参数进行更新。
         self.offset = 0
-        self.pre_batch_exs = [None for _ in range(num_pre_batch_vectors)] # 1024长的列表
+        self.pre_batch_exs = [None for _ in range(num_pre_batch_vectors)] # [256]
 
-        self.hr_bert = AutoModel.from_pretrained(args.pretrained_model)
+        self.hr_bert = AutoModel.from_pretrained(args.pretrained_model) # 这个地方是我要进行修改的重点
+        #self.hr_bert = get_lora_model(args.pretrained_model)
         self.tail_bert = deepcopy(self.hr_bert)
 
     def _encode(self, encoder, token_ids, mask, token_type_ids): # 这地方是进行编码的工作，他这个有点意思，正常来说应该在dataloader的时候就应该已经tokenize了
@@ -49,8 +70,8 @@ class CustomBertModel(nn.Module, ABC):
                           token_type_ids=token_type_ids,
                           return_dict=True)
 
-        last_hidden_state = outputs.last_hidden_state
-        cls_output = last_hidden_state[:, 0, :]
+        last_hidden_state = outputs.last_hidden_state # [bsz,seq_len,hidden_size] [256,768]
+        cls_output = last_hidden_state[:, 0, :] # [bsz,hidden_size] [256,768]
         cls_output = _pool_output(self.args.pooling, cls_output, mask, last_hidden_state)
         return cls_output # 按照池化方式选择的cls_output 不一定就是选择最开始的cls token
 
@@ -85,17 +106,17 @@ class CustomBertModel(nn.Module, ABC):
 
     def compute_logits(self, output_dict: dict, batch_dict: dict) -> dict: # 这个是自己定义的计算logit的方法
         hr_vector, tail_vector = output_dict['hr_vector'], output_dict['tail_vector']
-        batch_size = hr_vector.size(0)
+        batch_size = hr_vector.size(0) # 256
         labels = torch.arange(batch_size).to(hr_vector.device) # 0~bsz-1
 
-        logits = hr_vector.mm(tail_vector.t()) # [bsz,bsz]
+        logits = hr_vector.mm(tail_vector.t()) # [bsz,bsz] 只有主对角线的元素为真
         if self.training:
             logits -= torch.zeros(logits.size()).fill_diagonal_(self.add_margin).to(logits.device) # 减去margin
         logits *= self.log_inv_t.exp()
 
         triplet_mask = batch_dict.get('triplet_mask', None) # [bsz,bsz]
         if triplet_mask is not None:
-            logits.masked_fill_(~triplet_mask, -1e4) # 将运算结果为True的位置(原mask矩阵对应的为0的位置),在logits矩阵中赋值为一个很小的数字-1e4。
+            logits.masked_fill_(~triplet_mask, -1e4) # 使用-1e4将logits张量中在triplet_mask为True的位置上的元素进行填充，将其值设为-1e4。
 
         if self.pre_batch > 0 and self.training:
             pre_batch_logits = self._compute_pre_batch_logits(hr_vector, tail_vector, batch_dict)
@@ -159,5 +180,5 @@ def _pool_output(pooling: str,
     else:
         assert False, 'Unknown pooling mode: {}'.format(pooling)
 
-    output_vector = nn.functional.normalize(output_vector, dim=1)
+    output_vector = nn.functional.normalize(output_vector, dim=1) # 进行归一化
     return output_vector

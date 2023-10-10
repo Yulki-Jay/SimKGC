@@ -20,5 +20,6 @@ a = [0]
 a += [1, 2, 3]
 print(a)
 a = torch.ones(3, 4).cuda()
-while True:
-    print(a)
+print(a)
+# while True:
+#     print(a)

@@ -29,8 +29,8 @@ class TripletDict: # relations、hr2tails[(head, relation)作为key]、triplet_c
         logger.info('Triplet statistics: {} relations, {} triplets'.format(len(self.relations), self.triplet_cnt))
 
     def _load(self, path: str):
-        examples = json.load(open(path, 'r', encoding='utf-8'))
-        examples += [reverse_triplet(obj) for obj in examples] # 加上全部的逆关系
+        examples = json.load(open(path, 'r', encoding='utf-8')) # add (h r t) wn18rr:86835
+        examples += [reverse_triplet(obj) for obj in examples] # add (t r^-1 h) wn18rr cur:173670
         for ex in examples:
             self.relations.add(ex['relation'])
             key = (ex['head_id'], ex['relation'])
@@ -43,14 +43,14 @@ class TripletDict: # relations、hr2tails[(head, relation)作为key]、triplet_c
         return self.hr2tails.get((h, r), set())
 
 
-class EntityDict: # entity_exs(全部实体的信息)、id2entity、entity2idx 主要就是这个
+class EntityDict: # entity_exs(全部实体的信息)、id2entity、entity2idx 主要就是这个 对于wn18rr来说，共计有40943个实体
 
     def __init__(self, entity_dict_dir: str, inductive_test_path: str = None): # inductive 目前还没有使用
-        path = os.path.join(entity_dict_dir, 'entities.json')
+        path = os.path.join(entity_dict_dir, 'entities.json') 
         assert os.path.exists(path)
         self.entity_exs = [EntityExample(**obj) for obj in json.load(open(path, 'r', encoding='utf-8'))] # entity_exs是一个EntityExample的列表，包含全部id，entity，desc
 
-        if inductive_test_path:
+        if inductive_test_path: # 目前还未用到
             examples = json.load(open(inductive_test_path, 'r', encoding='utf-8'))
             valid_entity_ids = set()
             for ex in examples:
@@ -58,8 +58,8 @@ class EntityDict: # entity_exs(全部实体的信息)、id2entity、entity2idx �
                 valid_entity_ids.add(ex['tail_id'])
             self.entity_exs = [ex for ex in self.entity_exs if ex.entity_id in valid_entity_ids]
 
-        self.id2entity = {ex.entity_id: ex for ex in self.entity_exs}
-        self.entity2idx = {ex.entity_id: i for i, ex in enumerate(self.entity_exs)} # 将entity_id映射为idx，即映射到索引
+        self.id2entity = {ex.entity_id: ex for ex in self.entity_exs} # id2entity里面是一个字典
+        self.entity2idx = {ex.entity_id: i for i, ex in enumerate(self.entity_exs)} # 将entity_id映射为idx，即映射到索引，注意id和idx不是一个东西
         logger.info('Load {} entities from {}'.format(len(self.id2entity), path))
 
     def entity_to_idx(self, entity_id: str) -> int:
@@ -82,7 +82,7 @@ class LinkGraph: # graph 是一个字典，里面保存了每个实体的邻居�
         # id -> set(id)
         self.graph = {} # 是一个字典
         examples = json.load(open(train_path, 'r', encoding='utf-8'))
-        for ex in examples: # 这个地方相当于构建了一个无向图
+        for ex in examples: # 这个地方相当于构建了一个无向图,相当于通过邻接矩阵进行实现的 {id：(id1,id2,id3)....}
             head_id, tail_id = ex['head_id'], ex['tail_id']
             if head_id not in self.graph:
                 self.graph[head_id] = set()
@@ -92,7 +92,7 @@ class LinkGraph: # graph 是一个字典，里面保存了每个实体的邻居�
             self.graph[tail_id].add(head_id)
         logger.info('Done build link graph with {} nodes'.format(len(self.graph)))
 
-    def get_neighbor_ids(self, entity_id: str, max_to_keep=10) -> List[str]:
+    def get_neighbor_ids(self, entity_id: str, max_to_keep=10) -> List[str]: # 最多返回max_to_keep个邻居实体
         # make sure different calls return the same results
         neighbor_ids = self.graph.get(entity_id, set())
         return sorted(list(neighbor_ids))[:max_to_keep] # 按照实体id排序，获取max_to_keep个邻居实体，这里的邻居值得都是有同一个head的实体
